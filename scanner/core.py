@@ -1,6 +1,6 @@
 try:
     from PIL import Image
-except ImportError:
+except ImportError: # pragma: no cover
     import Image
 import pytesseract
 import json
@@ -28,11 +28,13 @@ def convert_ballot_image(contests, image):
             position += 1
 
         if position >= len(contests):
-            if len(result) == len(contests):
-                return result
-            else:
-                # invalid ballot / ballot not read
-                return None
+            break
+
+    if len(result) == len(contests):
+        return result
+    else:
+        # invalid ballot / ballot not read
+        return None
     
 def process_directory(contests, directory_path):
     files = glob.glob(directory_path + "/*.jpg")
@@ -42,12 +44,12 @@ def process_directory(contests, directory_path):
         print("\n\n")
 
         
-def main():
+def main(): # pragma: no cover
     election = json.loads(open("./election.json", "r").read())
     contests = get_contests(election)
     process_directory(contests, "./ballots/batch-1")
 
-if __name__ == "__main__":
+if __name__ == "__main__": # pragma: no cover
     main()
 
 
