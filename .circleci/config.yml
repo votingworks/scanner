@@ -23,4 +23,7 @@ jobs:
             - "/usr/local/lib/python3.6/site-packages"
       - run:
           command: |
-            pipenv run python -m pytest
+            pipenv run python -m pytest --cov=scanner --cov-report term-missing
+            pipenv run coverage report > coverage.txt
+      - store_artifacts:
+          path: coverage.txt
