@@ -17,7 +17,8 @@ def test_get_contests():
 
 @unittest.mock.patch('pytesseract.image_to_string')
 def test_convert_ballot_image(image_to_string):
-    image_to_string.return_value = 'Democratic Nominee for the 2020 Presidential Election\nKamala Harris / Senator\n\nSelect your preferred dessert\nPie'
+    # ballot with some typos
+    image_to_string.return_value = 'Democratic Nominee for the 2020 Presidential Election\nKamala Harrs / Senator\n\nSelect your preferred dessert\nPi'
     
     election = get_test_election()
     contests = scanner.core.get_contests(election)
@@ -25,7 +26,7 @@ def test_convert_ballot_image(image_to_string):
     result = scanner.core.convert_ballot_image(contests, None)
 
     assert image_to_string.called
-    assert result == ['Kamala Harris / Senator', 'Pie']
+    assert result == ['Kamala Harris', 'Pie']
 
 @unittest.mock.patch('pytesseract.image_to_string')
 def test_bad_ballot_convert_ballot_image(image_to_string):
