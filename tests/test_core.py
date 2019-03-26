@@ -45,6 +45,9 @@ def test_process_directory(convert_ballot_image):
     election = get_test_election()
     contests = scanner.core.get_contests(election)
 
+    # return a ballot 104 times and then a bad ballot
+    convert_ballot_image.side_effect = [['Kamala Harris', 'Pie']] * 104 + [None]
+
     scanner.core.process_directory(contests, "./ballots/batch-1")
 
-    assert convert_ballot_image.called
+    assert convert_ballot_image.call_count == 105
