@@ -1,0 +1,17 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+
+[packages]
+pytesseract = "==0.2.6"
+pytest = "==4.3.1"
+coverage = "==4.5.3"
+pytest-cov = "==2.6.1"
+Pillow = "==5.4.1"
+StringDist = "==1.0.9"
+
+[requires]
+python_version = "3.6"

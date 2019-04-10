@@ -26,10 +26,10 @@ def convert_ballot_image(contests, image):
     lines = raw_ballot.split("\n")
     for line_num in range(len(lines)):
         line = lines[line_num]
-        if stringdist.levenshtein(line, current_contest['title']) < (len(current_contest['title'])/2):
+        if stringdist.levenshtein(line, current_contest['title']) < (len(current_contest['title'])/4):
             option = lines[line_num+1]
 
-            # remove party affiliation
+            # remove party affiliation if it exists
             option = option.split(" / ")[0]
             
             # include "[no selection]" as an option            
@@ -61,7 +61,11 @@ def process_directory(contests, directory_path):
     result = ""
     failures = []
     for f in files:
-        one_ballot = convert_ballot_image(contests, Image.open(f))
+        # crop image to not include 20% of header and 9% of footer
+        image = Image.open(f)
+        cropped_image = image.crop(box=(0, image.height/5, image.width, image.height*91/100))
+        
+        one_ballot = convert_ballot_image(contests, cropped_image)
         if one_ballot:
             result += f + "," + ",".join(one_ballot) + "\n"
         else:
