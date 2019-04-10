@@ -12,11 +12,16 @@ Scanner processes image files (typically jpegs) into cast vote records
 
 ```
 pipenv
-pipenv install -r requirements.txt
+pipenv install
 ```
 
 * Process scanned ballots, expected to be JPEGs
 
 ```
+pipenv shell
 python -m scanner.core <election.json> <directory_of_jpegs>
 ```
+
+It will take a little while to process the ballots, and there is
+currently no progress update, but eventually you'll get a CSV dump of
+the processed ballots.
