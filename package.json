@@ -1,0 +1,20 @@
+{
+  "name": "scanner",
+  "version": "0.1.0",
+  "description": "Scanning Ballots",
+  "repository": "git@github.com:votingworks/scanner",
+  "author": "Ben Adida <ben@adida.net>",
+  "license": "GPLv3",
+  "dependencies": {
+    "@types/node": "^12.0.0",
+    "jpeg-js": "^0.3.5",
+    "jsqr": "^1.2.0",
+    "ts-node": "^8.1.0",
+    "typescript": "^3.4.5"
+  },
+  "scripts": {
+    "build-ts": "tsc",
+    "watch-ts": "tsc -w",
+    "start": "ts-node ./src/scanner.ts"
+  }
+}

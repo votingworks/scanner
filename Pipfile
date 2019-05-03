@@ -13,6 +13,9 @@ pytest-cov = "==2.6.1"
 Pillow = "==5.4.1"
 StringDist = "==1.0.9"
 pyzbar = "*"
+zxing = "*"
+qreader = "*"
+python-zxing = "*"
 
 [requires]
 python_version = "3.6"

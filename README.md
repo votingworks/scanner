@@ -14,6 +14,12 @@ Scanner processes image files (typically jpegs) into cast vote records
 sudo apt install libzbar0
 ```
 
+* install SANE
+
+```
+sudo apt install sane sane-utils libsane-extras xsane
+```
+
 * Set up your environment and install required packages
 
 ```

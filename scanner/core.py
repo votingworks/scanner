@@ -1,3 +1,6 @@
+
+from pyzbar.pyzbar import decode, ZBarSymbol
+
 try:
     from PIL import Image
 except ImportError: # pragma: no cover
@@ -13,6 +16,13 @@ def get_contests(election):
     return election["contests"]
 
 def convert_ballot_image(contests, image):
+
+    # find the QR code
+    qr_codes = decode(image, symbols=[ZBarSymbol.QRCODE])
+
+    print(image)
+    print(qr_codes)
+    
     raw_ballot = pytesseract.image_to_string(image)
 
     position = 0
@@ -55,7 +65,7 @@ def convert_ballot_image(contests, image):
         return None
     
 def process_directory(contests, directory_path):
-    files = glob.glob(directory_path + "/*.jpg")
+    files = glob.glob(directory_path + "/*")
     # Simple image to string
     result = ""
     failures = []
