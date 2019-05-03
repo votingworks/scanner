@@ -26,7 +26,7 @@ def test_convert_ballot_image(image_to_string):
     result = scanner.core.convert_ballot_image(contests, None)
 
     assert image_to_string.called
-    assert result == ['Kamala Harris', 'Pie']
+    assert result == {'democratic-candidate': 'harris', 'cake-or-pie': 'pie'}
 
 @unittest.mock.patch('pytesseract.image_to_string')
 def test_bad_ballot_convert_ballot_image(image_to_string):
@@ -46,7 +46,7 @@ def test_process_directory(convert_ballot_image):
     contests = scanner.core.get_contests(election)
 
     # return a ballot 104 times and then a bad ballot
-    convert_ballot_image.side_effect = [['Kamala Harris', 'Pie']] * 104 + [None]
+    convert_ballot_image.side_effect = [{'democratic-candidate': 'sanders', 'cake-or-pie': 'pie'}] * 104 + [None]
 
     scanner.core.process_directory(contests, "./ballots/batch-1")
 

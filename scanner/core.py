@@ -10,9 +10,7 @@ import stringdist
 import sys
 
 def get_contests(election):
-    simplified_contests = [{"title": c['title'], "answers": [a['name'] for a in c['candidates']]} for c in election['contests']]
-
-    return simplified_contests
+    return election["contests"]
 
 def convert_ballot_image(contests, image):
     raw_ballot = pytesseract.image_to_string(image)
@@ -20,26 +18,27 @@ def convert_ballot_image(contests, image):
     position = 0
     current_contest = contests[position]
     
-    result = []
+    result = {}
 
     # expecting ballot with contest title, newline, voter choice
     lines = raw_ballot.split("\n")
     for line_num in range(len(lines)):
         line = lines[line_num]
         if stringdist.levenshtein(line, current_contest['title']) < (len(current_contest['title'])/4):
-            option = lines[line_num+1]
+            voter_selection = lines[line_num+1]
 
             # remove party affiliation if it exists
-            option = option.split(" / ")[0]
+            voter_selection = voter_selection.split(" / ")[0]
             
-            # include "[no selection]" as an option            
-            answers_enumerated = list(enumerate(current_contest["answers"]))
-            answers_enumerated.append((None, "[no selection]"))
+            # include "[no selection]" as an option
+            candidates = current_contest["candidates"]
+            candidates += [{"id": None, "name": "[no selection]"}]
 
             # match option against candidates using min Levenshtein distance
-            distances = [(answer_num, answer, stringdist.levenshtein(option, answer)) for answer_num, answer in answers_enumerated]
-            the_answer = min(distances, key = lambda a: a[2])
-            result.append(the_answer[1])
+            distances = [(candidate, stringdist.levenshtein(voter_selection, candidate["name"])) for candidate in candidates]
+            the_answer = min(distances, key = lambda a: a[1])
+
+            result[current_contest['id']] = the_answer[0]['id']
             
             position += 1
 
@@ -49,7 +48,7 @@ def convert_ballot_image(contests, image):
             current_contest = contests[position]
 
 
-    if len(result) == len(contests):
+    if len(result.items()) == len(contests):
         return result
     else:
         # invalid ballot / ballot not read
@@ -67,7 +66,8 @@ def process_directory(contests, directory_path):
         
         one_ballot = convert_ballot_image(contests, cropped_image)
         if one_ballot:
-            result += f + "," + ",".join(one_ballot) + "\n"
+            one_ballot['file'] = f
+            result += json.dumps(one_ballot) + "\n"
         else:
             failures.append(f)
 

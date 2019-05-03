@@ -12,6 +12,7 @@ coverage = "==4.5.3"
 pytest-cov = "==2.6.1"
 Pillow = "==5.4.1"
 StringDist = "==1.0.9"
+pyzbar = "*"
 
 [requires]
 python_version = "3.6"
