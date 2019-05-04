@@ -28,6 +28,5 @@ export interface YesNoContest extends Contest {
 }
 export type Contests = Array<CandidateContest | YesNoContest>
 
-export type Ballot extends Dictionary<string> {
-  readonly precinctId: string
-}
+export type Ballot extends Dictionary<string> {}
+
