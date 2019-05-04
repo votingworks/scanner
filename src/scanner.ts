@@ -17,6 +17,7 @@ dir.forEach((f : string) => {
   const file = path.join(input_path, f)
   // @ts-ignore image type not defined
   ImageJS.load(file).then(function(im) {
+    console.log(file)
     const qrData : string = jsQR(im.data, im.width, im.height).data as string
 
     const [ballotStyleId, precinctId, choices] = qrData.split(".")
@@ -29,16 +30,17 @@ dir.forEach((f : string) => {
     let votes : Ballot = {precinctId}
 
     const choices_list = choices.split("/")
-    contests.forEach((c : Contest, c_num : number) => {
+    console.log("LENGTH", choices_list.length, contests.length)
+    contests.forEach((c : Contest, contest_num : number) => {
       if (c.type === "yesno") {
 
       }
 
       if (c.type === "candidate") {
-	const choice = choices_list[c_num]
+	const choice = choices_list[contest_num]
 	console.log(c.id, (c as CandidateContest).candidates.length)
 	if (choice !== '') {
-	  console.log("CHOICE", choice, c_num)
+	  console.log("CHOICE", choice, contest_num)
 	  votes[c.id] = (c as CandidateContest).candidates[parseInt(choice)].id
 	}
       }
