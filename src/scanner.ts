@@ -59,7 +59,13 @@ cvrStream.once('open', () => {
       const allChoicesList = allChoices.split("/")
       contests.forEach((c : Contest, contest_num : number) => {
 	if (c.type === "yesno") {
-	  
+	  if (allChoicesList[contest_num] === "1") {
+	    votes[c.id] = "yes"
+	  }
+
+	  if (allChoicesList[contest_num] === "0") {
+	    votes[c.id] = "no"
+	  }
 	}
 	
 	if (c.type === "candidate") {

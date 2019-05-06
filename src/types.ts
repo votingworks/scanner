@@ -4,6 +4,7 @@ export interface Dictionary<T> {
 
 export interface BallotStyle {
   readonly id: string
+  readonly partyId?: string
   readonly precincts: string[]
   readonly districts: string[]
 }
@@ -11,6 +12,7 @@ export interface BallotStyle {
 export interface Contest {
   readonly id: string
   readonly districtId: string
+  readonly partyId?: string
   readonly section: string
   readonly title: string
   readonly type: ContestTypes
