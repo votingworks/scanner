@@ -45,7 +45,13 @@ cvrStream.once('open', () => {
 
       // figure out the contests
       const ballotStyle = election.ballotStyles.find((b : BallotStyle)=> b.id === ballotStyleId)
-      const contests : Contests = election.contests.filter((c : Contest) => ballotStyle.districts.includes(c.districtId))
+      const contests : Contests = election.contests.filter((c : Contest) =>
+	(ballotStyle.districts.includes(c.districtId) &&
+	 (!ballotStyle.partyId ||
+	  !c.partyId ||
+	  ballotStyle.partyId === c.partyId)
+	))
+
 
       // prepare the CVR
       let votes : Ballot = {}
