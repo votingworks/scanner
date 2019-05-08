@@ -57,6 +57,9 @@ cvrStream.once('open', () => {
 
       const allChoicesList = allChoices.split("/")
       contests.forEach((c : Contest, contest_num : number) => {
+	// no answer for a particular contest is recorded in our final dictionary as an empty string
+	// not the same thing as undefined.
+	
 	if (c.type === "yesno") {
 	  if (allChoicesList[contest_num] === "1") {
 	    votes[c.id] = "yes"
@@ -65,6 +68,9 @@ cvrStream.once('open', () => {
 	  if (allChoicesList[contest_num] === "0") {
 	    votes[c.id] = "no"
 	  }
+
+	  // neither 0 nor 1, so no answer, we still record it.
+	  votes[c.id] = ""
 	}
 	
 	if (c.type === "candidate") {
@@ -72,11 +78,14 @@ cvrStream.once('open', () => {
 	  const choices = allChoicesList[contest_num].split(",")
 	  if (choices.length > 1 || choices[0] !== '') {
 	    votes[c.id] = choices.map(choice => (c as CandidateContest).candidates[parseInt(choice)].id)
+	  } else {
+	    votes[c.id] = ""
 	  }
 	}
       })
-      
-      cvrStream.write(`${precinctId}, ${JSON.stringify(votes)}\n`)
+
+      votes["_precinctId"] = precinctId
+      cvrStream.write(`${JSON.stringify(votes)}\n`)
     })
   })
 })
