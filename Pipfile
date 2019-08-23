@@ -6,7 +6,7 @@ verify_ssl = true
 [dev-packages]
 
 [packages]
-pytesseract = "==0.2.6"
+pytesseract = "==0.3.0"
 pytest = "==5.1.1"
 coverage = "==4.5.3"
 pytest-cov = "==2.6.1"
