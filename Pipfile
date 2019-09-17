@@ -8,7 +8,7 @@ verify_ssl = true
 [packages]
 pytesseract = "==0.3.0"
 pytest = "==5.1.1"
-coverage = "==4.5.3"
+coverage = "==4.5.4"
 pytest-cov = "==2.6.1"
 Pillow = "==5.4.1"
 StringDist = "==1.0.9"
